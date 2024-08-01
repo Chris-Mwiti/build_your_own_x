@@ -1,0 +1,36 @@
+{
+  "name": "web_steward",
+  "version": "1.0.0",
+  "description": "Node js steward ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chris-Mwiti/build_your_own_x.git"
+  },
+  "keywords": [
+    "What",
+    "I",
+    "Cannot",
+    "Create",
+    "I",
+    "Do",
+    "Not",
+    "Understand"
+  ],
+  "author": "Chris-Mwiti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chris-Mwiti/build_your_own_x/issues"
+  },
+  "homepage": "https://github.com/Chris-Mwiti/build_your_own_x#readme",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
