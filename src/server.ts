@@ -14,6 +14,8 @@ function newConn(socket: net.Socket): void{
         //Write back to the socket
         socket.write(data.toString('utf-8'));
 
+
+        
         if(data.includes('q')) {
             console.log('closing connection');
             socket.end() // Will send FIN and close the connection
