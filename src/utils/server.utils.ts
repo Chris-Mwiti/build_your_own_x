@@ -1,5 +1,7 @@
 import { TCPConn } from "../types/server.types";
 import type net from 'net';
+import bufPush, { DynBuf } from "./bufferUtils";
+import { cutMessage } from "./bufferUtils";
 
 function soInit(socket: net.Socket): TCPConn {
     const conn:TCPConn = {
@@ -84,15 +86,34 @@ function soWrite(conn:TCPConn, data:Buffer): Promise<void> {
 async function serveClient(socket: net.Socket): Promise<void> {
     const conn: TCPConn =  soInit(socket);
 
-    while(true){
-        const data = await soRead(conn);
-        if(data.length === 0){
-            console.log('end connection'); 
-            break;
-        }
+    //Store the current message that needs to be processed 
+    const buf: DynBuf = {
+        data: Buffer.alloc(0),
+        length: 0
+    }
 
-        console.log('data', data);
-        await soWrite(conn, data)
+    while(true){
+        const msg: null | Buffer = cutMessage(buf);
+
+        if(!msg){
+            const data: Buffer = await soRead(conn);
+            bufPush(buf,data);
+
+            //EOF?
+            if(data.length === 0){
+                console.log("connection ended...");
+                break;
+            }
+            continue;
+        } 
+        if(msg.equals(Buffer.from('quit\n'))){
+            await soWrite(conn, Buffer.from('Bye.\n'));
+            socket.destroy();
+            return
+        } else {
+            const reply = Buffer.concat([Buffer.from('Echo: '), msg]);
+            await soWrite(conn,reply);
+        }
     }
 }
 
