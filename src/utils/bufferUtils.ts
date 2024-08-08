@@ -40,6 +40,7 @@ export function cutMessage(buf: DynBuf) : null | Buffer {
 }
 
 //Removes a set of buffers from the specified condition to the end
+/**@todo: improve the buffer pop method to become a smart buffer so that to reduce the time complexity from O(n2) */
 function bufPop(buf:DynBuf, len:number): void {
     buf.data.copyWithin(0, len, buf.length);
     buf.length -= len;
